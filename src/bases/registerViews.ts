@@ -17,7 +17,7 @@ export function registerAllViews(plugin: Plugin): void {
     icon: "bar-chart-2",
     factory: (controller, containerEl) => {
       const view = new ChartBasesView(controller, containerEl);
-      (view as any).load();
+      view.load();
       return view;
     },
     options: (config) => chartViewOptions(config),
@@ -29,7 +29,7 @@ export function registerAllViews(plugin: Plugin): void {
     icon: "calendar",
     factory: (controller, containerEl) => {
       const view = new CalendarBasesView(controller, containerEl);
-      (view as any).load();
+      view.load();
       return view;
     },
     options: (config) => calendarViewOptions(config),
@@ -41,7 +41,7 @@ export function registerAllViews(plugin: Plugin): void {
     icon: "check-circle-2",
     factory: (controller, containerEl) => {
       const view = new HabitBasesView(controller, containerEl);
-      (view as any).load();
+      view.load();
       return view;
     },
     options: (config) => habitViewOptions(config),
@@ -53,7 +53,7 @@ export function registerAllViews(plugin: Plugin): void {
     icon: "layout-dashboard",
     factory: (controller, containerEl) => {
       const view = new DashboardBasesView(controller, containerEl);
-      (view as any).load();
+      view.load();
       return view;
     },
     options: (config) => dashboardViewOptions(config),
