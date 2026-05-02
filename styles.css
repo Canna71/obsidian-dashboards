@@ -1,0 +1,622 @@
+/* ============================================================
+   Obsidian Dashboards – styles.css
+   All view types: chart, calendar, habit, dashboard
+   ============================================================ */
+
+/* ─── Shared layout ──────────────────────────────────────────────────────── */
+
+.odash-chart-view,
+.odash-calendar-view,
+.odash-habit-view,
+.odash-dashboard-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  font-family: var(--font-interface);
+  color: var(--text-normal);
+}
+
+/* ─── Empty / error states ───────────────────────────────────────────────── */
+
+.odash-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  min-height: 200px;
+  gap: 8px;
+  color: var(--text-muted);
+  padding: 32px;
+}
+
+.odash-empty-icon {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.odash-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-normal);
+}
+
+.odash-empty-body {
+  font-size: 13px;
+  margin: 0;
+  max-width: 340px;
+  line-height: 1.5;
+}
+
+/* ─── Section titles ─────────────────────────────────────────────────────── */
+
+.odash-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 8px 0;
+}
+
+.odash-dash-section,
+.odash-habit-section {
+  margin-bottom: 20px;
+}
+
+/* ─── KPI bar ─────────────────────────────────────────────────────────────── */
+
+.odash-kpi-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.odash-kpi-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 16px;
+  border-radius: var(--radius-m, 6px);
+  background: var(--background-secondary);
+  min-width: 80px;
+  flex: 1;
+  text-align: center;
+}
+
+.odash-kpi-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.odash-kpi-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-normal);
+  font-variant-numeric: tabular-nums;
+}
+
+.odash-kpi-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ─── Chart view ──────────────────────────────────────────────────────────── */
+
+.odash-chart-wrapper {
+  flex: 1;
+  min-height: 280px;
+  position: relative;
+}
+
+.odash-chart-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ─── Calendar view ──────────────────────────────────────────────────────── */
+
+.odash-cal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.odash-cal-nav {
+  background: none;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s, 4px);
+  cursor: pointer;
+  color: var(--text-normal);
+  font-size: 16px;
+  padding: 2px 8px;
+  line-height: 1.4;
+}
+
+.odash-cal-nav:hover {
+  background: var(--background-modifier-hover);
+}
+
+.odash-cal-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-normal);
+}
+
+.odash-cal-today {
+  background: none;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-s, 4px);
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 8px;
+}
+
+.odash-cal-today:hover {
+  background: var(--color-accent-1);
+}
+
+/* Month grid */
+.odash-cal-grid-month {
+  display: grid;
+  gap: 0;
+}
+
+.odash-cal-header-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 2px;
+}
+
+.odash-cal-header-cell {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.odash-cal-header-cell--today {
+  color: var(--color-accent);
+}
+
+.odash-cal-week-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  min-height: 80px;
+}
+
+.odash-cal-cell {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s, 3px);
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+  min-height: 72px;
+  overflow: hidden;
+  background: var(--background-primary);
+}
+
+.odash-cal-cell:hover {
+  background: var(--background-modifier-hover);
+}
+
+.odash-cal-cell--other-month {
+  opacity: 0.4;
+  background: var(--background-secondary);
+}
+
+.odash-cal-cell--today {
+  border-color: var(--color-accent);
+}
+
+.odash-cal-cell--weekend {
+  background: var(--background-secondary-alt, var(--background-secondary));
+}
+
+.odash-cal-day-num {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.odash-cal-today-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--text-on-accent, #fff);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.odash-cal-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.odash-cal-event {
+  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: var(--evt-color, var(--color-accent));
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.odash-cal-event:hover {
+  filter: brightness(1.1);
+}
+
+.odash-cal-more {
+  font-size: 10px;
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+/* Week view */
+.odash-cal-grid-week {
+  display: flex;
+  flex-direction: column;
+}
+
+.odash-cal-week-body {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.odash-cal-week-col {
+  flex: 1;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s, 3px);
+  padding: 4px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.odash-cal-week-col--today {
+  border-color: var(--color-accent);
+  background: var(--background-primary);
+}
+
+.odash-cal-wday {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.odash-cal-wdate {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+/* Agenda view */
+.odash-cal-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.odash-cal-agenda-day-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 8px 0 4px 0;
+  border-top: 1px solid var(--background-modifier-border);
+  margin-top: 8px;
+}
+
+.odash-cal-agenda-row {
+  padding: 4px 0;
+}
+
+.odash-cal-agenda-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+/* ─── Habit view ──────────────────────────────────────────────────────────── */
+
+.odash-habit-header {
+  margin-bottom: 12px;
+}
+
+.odash-habit-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: var(--text-normal);
+}
+
+.odash-habit-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Heatmap */
+.odash-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.odash-heatmap-months {
+  display: flex;
+  gap: 8px;
+}
+
+.odash-heatmap-month {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.odash-heatmap-month-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.odash-heatmap-weeks {
+  display: flex;
+  gap: 2px;
+}
+
+.odash-heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.odash-heatmap-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--background-modifier-border);
+  transition: transform 0.1s, filter 0.1s;
+}
+
+.odash-heatmap-cell--empty {
+  background: transparent;
+  pointer-events: none;
+}
+
+.odash-heatmap-cell--untracked {
+  background: var(--background-modifier-border);
+  opacity: 0.4;
+}
+
+.odash-heatmap-cell--future {
+  opacity: 0.2;
+  background: var(--background-modifier-border);
+}
+
+.odash-heatmap-cell--today {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.odash-heatmap-cell--clickable {
+  cursor: pointer;
+}
+
+.odash-heatmap-cell--clickable:hover {
+  transform: scale(1.3);
+  filter: brightness(1.2);
+  z-index: 1;
+  position: relative;
+}
+
+.odash-heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.odash-heatmap-legend-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.odash-heatmap-legend-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Weekly bars */
+.odash-week-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 60px;
+  padding-bottom: 2px;
+}
+
+.odash-week-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  gap: 2px;
+  cursor: default;
+  position: relative;
+}
+
+.odash-week-bar-fill {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  transition: height 0.2s;
+}
+
+.odash-week-bar-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Habit wizard */
+.odash-habit-wizard {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m, 6px);
+  background: var(--background-secondary);
+  max-width: 400px;
+  text-align: left;
+}
+
+.odash-wizard-intro {
+  font-size: 13px;
+  margin: 0 0 8px 0;
+  color: var(--text-muted);
+}
+
+.odash-habit-wizard ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.odash-habit-wizard li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+/* ─── Dashboard view ──────────────────────────────────────────────────────── */
+
+.odash-dash-ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.odash-ranking-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.odash-ranking-label {
+  flex: 0 0 120px;
+  font-size: 12px;
+  color: var(--text-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.odash-ranking-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--background-modifier-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.odash-ranking-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.odash-ranking-value {
+  flex: 0 0 36px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.odash-sparkline {
+  height: 100px !important;
+  width: 100% !important;
+}
+
+.odash-recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.odash-recent-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: var(--radius-s, 4px);
+  background: var(--background-secondary);
+  gap: 8px;
+}
+
+.odash-recent-row:hover {
+  background: var(--background-modifier-hover);
+}
+
+.odash-recent-link {
+  font-size: 13px;
+  color: var(--text-normal);
+  text-decoration: none;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.odash-recent-link:hover {
+  color: var(--color-accent);
+}
+
+.odash-recent-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,45 @@
+import type { Plugin } from "obsidian";
+import { ChartBasesView, chartViewOptions } from "../views/charts/ChartBasesView";
+import { CalendarBasesView, calendarViewOptions } from "../views/calendar/CalendarBasesView";
+import { HabitBasesView, habitViewOptions } from "../views/habits/HabitBasesView";
+import { DashboardBasesView, dashboardViewOptions } from "../views/dashboard/DashboardBasesView";
+import {
+  VIEW_TYPE_CHART,
+  VIEW_TYPE_CALENDAR,
+  VIEW_TYPE_HABIT,
+  VIEW_TYPE_DASHBOARD,
+} from "./viewTypes";
+
+export function registerAllViews(plugin: Plugin): void {
+  // Chart view
+  plugin.registerBasesView(VIEW_TYPE_CHART, {
+    name: "Chart",
+    icon: "bar-chart-2",
+    factory: (controller, containerEl) => new ChartBasesView(controller, containerEl),
+    options: (config) => chartViewOptions(config),
+  });
+
+  // Calendar view
+  plugin.registerBasesView(VIEW_TYPE_CALENDAR, {
+    name: "Calendar",
+    icon: "calendar",
+    factory: (controller, containerEl) => new CalendarBasesView(controller, containerEl),
+    options: (config) => calendarViewOptions(config),
+  });
+
+  // Habit tracker view
+  plugin.registerBasesView(VIEW_TYPE_HABIT, {
+    name: "Habit tracker",
+    icon: "check-circle-2",
+    factory: (controller, containerEl) => new HabitBasesView(controller, containerEl),
+    options: (config) => habitViewOptions(config),
+  });
+
+  // Dashboard view
+  plugin.registerBasesView(VIEW_TYPE_DASHBOARD, {
+    name: "Dashboard",
+    icon: "layout-dashboard",
+    factory: (controller, containerEl) => new DashboardBasesView(controller, containerEl),
+    options: (config) => dashboardViewOptions(config),
+  });
+}

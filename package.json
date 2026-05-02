@@ -1,0 +1,25 @@
+{
+  "name": "obsidian-dashboards",
+  "version": "1.0.0",
+  "description": "Advanced chart, calendar, and habit tracking views for Obsidian Bases",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "typecheck": "tsc -noEmit -skipLibCheck"
+  },
+  "keywords": [],
+  "author": "Gabriele Cannata",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "^0.21.0",
+    "obsidian": "latest",
+    "tslib": "latest",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.4"
+  }
+}
