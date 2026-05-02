@@ -217,6 +217,8 @@ export interface HeatmapViewConfig {
   colorScheme: HeatmapColorScheme;
   showStats: boolean;
   firstDayOfWeek: number; // 0=Sunday, 1=Monday
+  minValue: number | null; // null → auto (0)
+  maxValue: number | null; // null → auto (data max)
 }
 
 export const DEFAULT_HEATMAP_CONFIG: HeatmapViewConfig = {
@@ -227,6 +229,8 @@ export const DEFAULT_HEATMAP_CONFIG: HeatmapViewConfig = {
   colorScheme: "green",
   showStats: true,
   firstDayOfWeek: 1,
+  minValue: null,
+  maxValue: null,
 };
 
 // ─── Dashboard config ────────────────────────────────────────────────────────

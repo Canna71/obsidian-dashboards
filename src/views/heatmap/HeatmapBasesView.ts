@@ -12,7 +12,7 @@ import { recordsFromResult } from "../../data/adapter";
 import { buildHeatmapMonths } from "../../habits/heatmap";
 import { getHeatmapColorsByScheme, getHeatmapColor } from "../../theme/tokens";
 import { coerceToNumber } from "../../utils/validation";
-import { formatNumber, formatPercent } from "../../utils/numbers";
+import { formatNumber } from "../../utils/numbers";
 import { VIEW_TYPE_HEATMAP } from "../../bases/viewTypes";
 
 export class HeatmapBasesView extends BasesView {
@@ -50,6 +50,8 @@ export class HeatmapBasesView extends BasesView {
       firstDayOfWeek:
         (cfg.get("firstDayOfWeek") as number) ??
         DEFAULT_HEATMAP_CONFIG.firstDayOfWeek,
+      minValue: parseOptionalNumber(cfg.get("minValue") as string | undefined),
+      maxValue: parseOptionalNumber(cfg.get("maxValue") as string | undefined),
     };
   }
 
@@ -92,11 +94,14 @@ export class HeatmapBasesView extends BasesView {
     const months = buildHeatmapMonths(days, viewCfg.monthsBack, viewCfg.firstDayOfWeek);
     const colors = getHeatmapColorsByScheme(viewCfg.colorScheme);
 
-    // Pre-compute max value for intensity normalization
+    // Pre-compute intensity scale
     const trackedValues = days.filter((d) => d.isTracked).map((d) =>
       d.value.kind === "number" ? d.value.value : 0,
     );
-    const maxVal = trackedValues.length > 0 ? Math.max(...trackedValues, 1) : 1;
+    const dataMax = trackedValues.length > 0 ? Math.max(...trackedValues) : 1;
+    const effectiveMin = viewCfg.minValue ?? 0;
+    const effectiveMax = viewCfg.maxValue ?? Math.max(dataMax, effectiveMin + 1);
+    const scaleRange = effectiveMax - effectiveMin || 1;
 
     // Build a quick lookup: dateKey → records for click handling
     const recordsByDate = new Map<string, typeof records>();
@@ -143,10 +148,9 @@ export class HeatmapBasesView extends BasesView {
             continue;
           }
 
-          const intensity =
-            cell.isTracked && cell.value > 0
-              ? Math.min(1, cell.value / maxVal)
-              : 0;
+          const intensity = cell.isTracked
+            ? Math.min(1, Math.max(0, (cell.value - effectiveMin) / scaleRange))
+            : 0;
 
           const cls = [
             "odash-heatmap-cell",
@@ -179,18 +183,14 @@ export class HeatmapBasesView extends BasesView {
 
     // ── Legend ───────────────────────────────────────────────────────────────
     const legendEl = heatmapEl.createDiv("odash-heatmap-legend");
-    legendEl.createEl("span", {
-      cls: "odash-heatmap-legend-label",
-      text: "Less",
-    });
+    const minLabel = viewCfg.valueField ? formatNumber(effectiveMin) : "0";
+    const maxLabel = viewCfg.valueField ? formatNumber(effectiveMax) : "max";
+    legendEl.createEl("span", { cls: "odash-heatmap-legend-label", text: minLabel });
     for (const color of colors) {
       const dot = legendEl.createDiv("odash-heatmap-legend-cell");
       dot.style.backgroundColor = color;
     }
-    legendEl.createEl("span", {
-      cls: "odash-heatmap-legend-label",
-      text: "More",
-    });
+    legendEl.createEl("span", { cls: "odash-heatmap-legend-label", text: maxLabel });
   }
 
   private renderStats(days: HabitDayStatus[], cfg: HeatmapViewConfig) {
@@ -322,7 +322,7 @@ export function heatmapViewOptions(config: BasesViewConfig): BasesAllOptions[] {
     },
     {
       type: "group",
-      displayName: "Display",
+      displayName: "Color scale",
       items: [
         {
           key: "colorScheme",
@@ -337,6 +337,28 @@ export function heatmapViewOptions(config: BasesViewConfig): BasesAllOptions[] {
             red: "Red",
           },
         },
+        {
+          key: "minValue",
+          type: "text",
+          displayName: "Min value",
+          default: "",
+          placeholder: "auto (0)",
+          shouldHide: () => !hasValueField,
+        },
+        {
+          key: "maxValue",
+          type: "text",
+          displayName: "Max value",
+          default: "",
+          placeholder: "auto (data max)",
+          shouldHide: () => !hasValueField,
+        },
+      ],
+    },
+    {
+      type: "group",
+      displayName: "Display",
+      items: [
         {
           key: "showStats",
           type: "toggle",
@@ -356,4 +378,12 @@ export function heatmapViewOptions(config: BasesViewConfig): BasesAllOptions[] {
       ],
     },
   ] as BasesAllOptions[];
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function parseOptionalNumber(val: string | number | undefined | null): number | null {
+  if (val === null || val === undefined || val === "") return null;
+  const n = Number(val);
+  return isNaN(n) ? null : n;
 }
