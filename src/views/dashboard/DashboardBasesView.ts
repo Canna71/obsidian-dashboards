@@ -40,6 +40,9 @@ export class DashboardBasesView extends BasesView {
   constructor(controller: QueryController, containerEl: HTMLElement) {
     super(controller);
     this.containerEl = containerEl;
+    // Bases gates runQuery on containerEl.isShown(), which returns false for
+    // embedded views. Override it so the query runs when the element is connected.
+    (containerEl as any).isShown = () => containerEl.isConnected;
   }
 
   onDataUpdated(): void {

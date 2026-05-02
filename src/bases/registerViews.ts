@@ -15,7 +15,11 @@ export function registerAllViews(plugin: Plugin): void {
   plugin.registerBasesView(VIEW_TYPE_CHART, {
     name: "Chart",
     icon: "bar-chart-2",
-    factory: (controller, containerEl) => new ChartBasesView(controller, containerEl),
+    factory: (controller, containerEl) => {
+      const view = new ChartBasesView(controller, containerEl);
+      (view as any).load();
+      return view;
+    },
     options: (config) => chartViewOptions(config),
   });
 
@@ -23,7 +27,11 @@ export function registerAllViews(plugin: Plugin): void {
   plugin.registerBasesView(VIEW_TYPE_CALENDAR, {
     name: "Calendar",
     icon: "calendar",
-    factory: (controller, containerEl) => new CalendarBasesView(controller, containerEl),
+    factory: (controller, containerEl) => {
+      const view = new CalendarBasesView(controller, containerEl);
+      (view as any).load();
+      return view;
+    },
     options: (config) => calendarViewOptions(config),
   });
 
@@ -31,7 +39,11 @@ export function registerAllViews(plugin: Plugin): void {
   plugin.registerBasesView(VIEW_TYPE_HABIT, {
     name: "Habit tracker",
     icon: "check-circle-2",
-    factory: (controller, containerEl) => new HabitBasesView(controller, containerEl),
+    factory: (controller, containerEl) => {
+      const view = new HabitBasesView(controller, containerEl);
+      (view as any).load();
+      return view;
+    },
     options: (config) => habitViewOptions(config),
   });
 
@@ -39,7 +51,11 @@ export function registerAllViews(plugin: Plugin): void {
   plugin.registerBasesView(VIEW_TYPE_DASHBOARD, {
     name: "Dashboard",
     icon: "layout-dashboard",
-    factory: (controller, containerEl) => new DashboardBasesView(controller, containerEl),
+    factory: (controller, containerEl) => {
+      const view = new DashboardBasesView(controller, containerEl);
+      (view as any).load();
+      return view;
+    },
     options: (config) => dashboardViewOptions(config),
   });
 }

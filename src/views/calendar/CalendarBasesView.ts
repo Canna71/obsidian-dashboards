@@ -36,6 +36,7 @@ export class CalendarBasesView extends BasesView {
   constructor(controller: QueryController, containerEl: HTMLElement) {
     super(controller);
     this.containerEl = containerEl;
+    (containerEl as any).isShown = () => containerEl.isConnected;
   }
 
   onDataUpdated(): void {

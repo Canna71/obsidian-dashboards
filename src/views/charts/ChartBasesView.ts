@@ -69,6 +69,7 @@ export class ChartBasesView extends BasesView {
   constructor(controller: QueryController, containerEl: HTMLElement) {
     super(controller);
     this.containerEl = containerEl;
+    (containerEl as any).isShown = () => containerEl.isConnected;
     this.buildDOM();
   }
 
@@ -82,6 +83,11 @@ export class ChartBasesView extends BasesView {
   }
 
   onDataUpdated(): void {
+    console.log("[odash-chart]", this.config?.name, {
+      entries: this.data?.data?.length,
+      allProps: this.allProperties?.length,
+      xField: this.config?.get("xField"),
+    });
     this.render();
   }
 
