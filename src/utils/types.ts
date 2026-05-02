@@ -205,6 +205,30 @@ export interface HeatmapMonth {
   weeks: HeatmapWeek[];
 }
 
+// ─── Heatmap view config ─────────────────────────────────────────────────────
+
+export type HeatmapColorScheme = "green" | "blue" | "purple" | "orange" | "red";
+
+export interface HeatmapViewConfig {
+  dateField: BasesPropertyId | null;
+  valueField: BasesPropertyId | null; // null → count records per day
+  aggregation: "count" | "sum" | "avg";
+  monthsBack: number;
+  colorScheme: HeatmapColorScheme;
+  showStats: boolean;
+  firstDayOfWeek: number; // 0=Sunday, 1=Monday
+}
+
+export const DEFAULT_HEATMAP_CONFIG: HeatmapViewConfig = {
+  dateField: null,
+  valueField: null,
+  aggregation: "count",
+  monthsBack: 6,
+  colorScheme: "green",
+  showStats: true,
+  firstDayOfWeek: 1,
+};
+
 // ─── Dashboard config ────────────────────────────────────────────────────────
 
 export interface DashboardViewConfig {

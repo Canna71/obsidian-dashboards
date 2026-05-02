@@ -59,22 +59,30 @@ export function getSurfaceColor(): string {
 
 // Heatmap color scale from "no activity" to "max activity"
 export function getHeatmapColors(): string[] {
+  return getHeatmapColorsByScheme("green");
+}
+
+export function getHeatmapColorsByScheme(scheme: string): string[] {
+  const empty = isDarkMode()
+    ? "var(--color-base-20, #2a2a2a)"
+    : "var(--color-base-20, #ebedf0)";
+
   if (isDarkMode()) {
-    return [
-      "var(--color-base-20, #2a2a2a)",
-      "#1e3a5f",
-      "#1d4ed8",
-      "#2563eb",
-      "#3b82f6",
-    ];
+    switch (scheme) {
+      case "blue":   return [empty, "#1e3a5f", "#1d4ed8", "#2563eb", "#3b82f6"];
+      case "purple": return [empty, "#3b0764", "#7e22ce", "#9333ea", "#a855f7"];
+      case "orange": return [empty, "#7c2d12", "#c2410c", "#ea580c", "#f97316"];
+      case "red":    return [empty, "#7f1d1d", "#b91c1c", "#dc2626", "#ef4444"];
+      default:       return [empty, "#14532d", "#15803d", "#16a34a", "#22c55e"]; // green
+    }
   }
-  return [
-    "var(--color-base-20, #ebedf0)",
-    "#c6e9b8",
-    "#7bc96f",
-    "#239a3b",
-    "#196127",
-  ];
+  switch (scheme) {
+    case "blue":   return [empty, "#dbeafe", "#93c5fd", "#3b82f6", "#1d4ed8"];
+    case "purple": return [empty, "#f3e8ff", "#d8b4fe", "#a855f7", "#7e22ce"];
+    case "orange": return [empty, "#ffedd5", "#fdba74", "#f97316", "#c2410c"];
+    case "red":    return [empty, "#fee2e2", "#fca5a5", "#ef4444", "#b91c1c"];
+    default:       return [empty, "#c6e9b8", "#7bc96f", "#239a3b", "#196127"]; // green
+  }
 }
 
 export function getHeatmapColor(intensity: number, colors: string[]): string {

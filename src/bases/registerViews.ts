@@ -3,11 +3,13 @@ import { ChartBasesView, chartViewOptions } from "../views/charts/ChartBasesView
 import { CalendarBasesView, calendarViewOptions } from "../views/calendar/CalendarBasesView";
 import { HabitBasesView, habitViewOptions } from "../views/habits/HabitBasesView";
 import { DashboardBasesView, dashboardViewOptions } from "../views/dashboard/DashboardBasesView";
+import { HeatmapBasesView, heatmapViewOptions } from "../views/heatmap/HeatmapBasesView";
 import {
   VIEW_TYPE_CHART,
   VIEW_TYPE_CALENDAR,
   VIEW_TYPE_HABIT,
   VIEW_TYPE_DASHBOARD,
+  VIEW_TYPE_HEATMAP,
 } from "./viewTypes";
 
 export function registerAllViews(plugin: Plugin): void {
@@ -57,5 +59,17 @@ export function registerAllViews(plugin: Plugin): void {
       return view;
     },
     options: (config) => dashboardViewOptions(config),
+  });
+
+  // Heatmap view
+  plugin.registerBasesView(VIEW_TYPE_HEATMAP, {
+    name: "Heatmap",
+    icon: "grid-3x3",
+    factory: (controller, containerEl) => {
+      const view = new HeatmapBasesView(controller, containerEl);
+      view.load();
+      return view;
+    },
+    options: (config) => heatmapViewOptions(config),
   });
 }
