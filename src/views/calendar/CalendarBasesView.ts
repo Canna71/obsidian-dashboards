@@ -56,6 +56,8 @@ export class CalendarBasesView extends BasesView {
   }
 
   private render() {
+    if (!this.data) return;
+
     const viewCfg = this.readConfig();
     this.mode = viewCfg.calendarMode;
 
@@ -72,6 +74,7 @@ export class CalendarBasesView extends BasesView {
       this.data,
       this.allProperties,
       (id) => this.config.getDisplayName(id),
+      [viewCfg.primaryDateField, viewCfg.endDateField, viewCfg.colorField, viewCfg.titleField],
     );
 
     // Build events
@@ -189,7 +192,6 @@ export class CalendarBasesView extends BasesView {
   private renderMonth(cfg: CalendarViewConfig, events: CalendarEvent[]) {
     const grid = this.containerEl.createDiv("odash-cal-grid-month");
     const firstDay = cfg.firstDayOfWeek;
-    const { getMonth, getFullYear } = this.currentDate;
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth();
 

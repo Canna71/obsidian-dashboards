@@ -103,11 +103,14 @@ export class ChartBasesView extends BasesView {
   }
 
   private render() {
+    if (!this.data) return;
+
     const viewCfg = this.readConfig();
     const { records, schema } = recordsFromResult(
       this.data,
       this.allProperties,
       (id) => this.config.getDisplayName(id),
+      [viewCfg.xField, viewCfg.yField, viewCfg.seriesField],
     );
 
     // ── Validation ─────────────────────────────────────────────────────────

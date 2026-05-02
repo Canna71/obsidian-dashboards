@@ -90,13 +90,26 @@ export function entryToRecord(
 }
 
 export function recordsFromResult(
-  result: BasesQueryResult,
+  result: BasesQueryResult | null | undefined,
   allProperties: BasesPropertyId[],
   getDisplayName: (id: BasesPropertyId) => string,
+  extraFields?: (BasesPropertyId | null | undefined)[],
 ): { records: BaseRecord[]; schema: FieldDescriptor[] } {
-  const records = result.data.map((e) => entryToRecord(e, allProperties));
+  if (!result) return { records: [], schema: [] };
 
-  const schema: FieldDescriptor[] = allProperties.map((id) => {
+  // Merge allProperties with any view-specific fields so they are always fetched
+  // even when allProperties is incomplete (e.g. in embedded Base contexts).
+  const propSet = new Set<string>(allProperties);
+  if (extraFields) {
+    for (const f of extraFields) {
+      if (f) propSet.add(f);
+    }
+  }
+  const props = Array.from(propSet) as BasesPropertyId[];
+
+  const records = result.data.map((e) => entryToRecord(e, props));
+
+  const schema: FieldDescriptor[] = props.map((id) => {
     const values = records.map((r) => r.properties[id] ?? { kind: "null" as const });
     return {
       id,

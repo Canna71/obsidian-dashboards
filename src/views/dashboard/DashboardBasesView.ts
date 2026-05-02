@@ -61,6 +61,8 @@ export class DashboardBasesView extends BasesView {
   }
 
   private render() {
+    if (!this.data) return;
+
     // Destroy previous sparklines
     for (const ch of this.sparklineCharts) ch.destroy();
     this.sparklineCharts = [];
@@ -70,6 +72,7 @@ export class DashboardBasesView extends BasesView {
       this.data,
       this.allProperties,
       (id) => this.config.getDisplayName(id),
+      [viewCfg.primaryMetric, viewCfg.groupField],
     );
 
     this.containerEl.empty();

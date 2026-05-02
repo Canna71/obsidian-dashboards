@@ -49,6 +49,8 @@ export class HabitBasesView extends BasesView {
   }
 
   private render() {
+    if (!this.data) return;
+
     const viewCfg = this.readConfig();
 
     if (!viewCfg.dateField) {
@@ -64,6 +66,7 @@ export class HabitBasesView extends BasesView {
       this.data,
       this.allProperties,
       (id) => this.config.getDisplayName(id),
+      [viewCfg.dateField, viewCfg.habitField],
     );
 
     if (records.length === 0) {
