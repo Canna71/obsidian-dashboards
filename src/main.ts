@@ -1,8 +1,40 @@
-import { Plugin, Notice } from "obsidian";
+import { Plugin, Notice, addIcon } from "obsidian";
 import { registerAllViews } from "./bases/registerViews";
+
+// ─── Custom icons ─────────────────────────────────────────────────────────────
+
+// 5×4 grid of rounded squares with a diagonal intensity gradient —
+// represents a heatmap / contribution graph. viewBox is 0 0 100 100.
+const HEATMAP_ICON_SVG = `
+  <rect x="3"  y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.15"/>
+  <rect x="22" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
+  <rect x="41" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
+  <rect x="60" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="79" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
+
+  <rect x="3"  y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
+  <rect x="22" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
+  <rect x="41" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="60" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
+  <rect x="79" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+
+  <rect x="3"  y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
+  <rect x="22" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="41" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
+  <rect x="60" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="79" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
+
+  <rect x="3"  y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="22" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
+  <rect x="41" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="60" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
+  <rect x="79" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
+`;
 
 export default class DashboardsPlugin extends Plugin {
   async onload() {
+    addIcon("odash-heatmap", HEATMAP_ICON_SVG);
+
     const registered = this.registerViews();
 
     if (!registered) {

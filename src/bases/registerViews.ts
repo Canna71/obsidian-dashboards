@@ -64,7 +64,7 @@ export function registerAllViews(plugin: Plugin): void {
   // Heatmap view
   plugin.registerBasesView(VIEW_TYPE_HEATMAP, {
     name: "Heatmap",
-    icon: "grid-3x3",
+    icon: "odash-heatmap",
     factory: (controller, containerEl) => {
       const view = new HeatmapBasesView(controller, containerEl);
       view.load();
