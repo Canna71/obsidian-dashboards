@@ -1,9 +1,9 @@
 {
-  "id": "obsidian-dashboards",
+  "id": "dashboards",
   "name": "Dashboards",
   "version": "1.0.0",
   "minAppVersion": "1.10.0",
-  "description": "Advanced chart, calendar, and habit tracking views for Obsidian Bases",
+  "description": "Advanced chart, calendar, and habit tracking views for Bases",
   "author": "Gabriele Cannata",
   "authorUrl": "https://github.com/gcannata",
   "isDesktopOnly": false
