@@ -233,6 +233,64 @@ export const DEFAULT_HEATMAP_CONFIG: HeatmapViewConfig = {
   maxValue: null,
 };
 
+// ─── KPI widget config ────────────────────────────────────────────────────────
+export interface KpiViewConfig {
+  metricField: BasesPropertyId | null;
+}
+export const DEFAULT_KPI_CONFIG: KpiViewConfig = { metricField: null };
+
+// ─── Ranking widget config ────────────────────────────────────────────────────
+export interface RankingViewConfig {
+  groupField: BasesPropertyId | null;
+  metricField: BasesPropertyId | null;
+  aggregation: "count" | "sum" | "avg";
+  topN: number;
+}
+export const DEFAULT_RANKING_CONFIG: RankingViewConfig = {
+  groupField: null, metricField: null, aggregation: "count", topN: 5,
+};
+
+// ─── Sparkline widget config ──────────────────────────────────────────────────
+export interface SparklineViewConfig {
+  dateField: BasesPropertyId | null;
+  metricField: BasesPropertyId | null;
+  aggregation: "count" | "sum" | "avg";
+  dateBucket: "week" | "month" | "quarter";
+}
+export const DEFAULT_SPARKLINE_CONFIG: SparklineViewConfig = {
+  dateField: null, metricField: null, aggregation: "count", dateBucket: "month",
+};
+
+// ─── Recent widget config ─────────────────────────────────────────────────────
+export interface RecentViewConfig {
+  dateField: BasesPropertyId | null;
+  topN: number;
+}
+export const DEFAULT_RECENT_CONFIG: RecentViewConfig = { dateField: null, topN: 10 };
+
+// ─── Streak widget config ─────────────────────────────────────────────────────
+export interface StreakViewConfig {
+  dateField: BasesPropertyId | null;
+  habitField: BasesPropertyId | null;
+  successRule: "any" | "gte-target" | "gt-zero";
+  targetValue: number;
+}
+export const DEFAULT_STREAK_CONFIG: StreakViewConfig = {
+  dateField: null, habitField: null, successRule: "any", targetValue: 1,
+};
+
+// ─── WeekBars widget config ───────────────────────────────────────────────────
+export interface WeekBarsViewConfig {
+  dateField: BasesPropertyId | null;
+  habitField: BasesPropertyId | null;
+  successRule: "any" | "gte-target" | "gt-zero";
+  targetValue: number;
+  weeksBack: number;
+}
+export const DEFAULT_WEEK_BARS_CONFIG: WeekBarsViewConfig = {
+  dateField: null, habitField: null, successRule: "any", targetValue: 1, weeksBack: 12,
+};
+
 // ─── Dashboard config ────────────────────────────────────────────────────────
 
 export interface DashboardViewConfig {
