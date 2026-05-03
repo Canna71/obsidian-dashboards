@@ -5,7 +5,6 @@ import { HeatmapBasesView, heatmapViewOptions } from "../views/heatmap/HeatmapBa
 import { KpiBasesView, kpiViewOptions } from "../views/widgets/KpiBasesView";
 import { RankingBasesView, rankingViewOptions } from "../views/widgets/RankingBasesView";
 import { SparklineBasesView, sparklineViewOptions } from "../views/widgets/SparklineBasesView";
-import { RecentBasesView, recentViewOptions } from "../views/widgets/RecentBasesView";
 import { StreakBasesView, streakViewOptions } from "../views/widgets/StreakBasesView";
 import { WeekBarsBasesView, weekBarsViewOptions } from "../views/widgets/WeekBarsBasesView";
 import {
@@ -15,7 +14,6 @@ import {
   VIEW_TYPE_KPI,
   VIEW_TYPE_RANKING,
   VIEW_TYPE_SPARKLINE,
-  VIEW_TYPE_RECENT,
   VIEW_TYPE_STREAK,
   VIEW_TYPE_WEEK_BARS,
 } from "./viewTypes";
@@ -91,18 +89,6 @@ export function registerAllViews(plugin: Plugin): void {
       return view;
     },
     options: (config) => sparklineViewOptions(config),
-  });
-
-  // Recent records widget
-  plugin.registerBasesView(VIEW_TYPE_RECENT, {
-    name: "Recent",
-    icon: "clock",
-    factory: (controller, containerEl) => {
-      const view = new RecentBasesView(controller, containerEl);
-      view.load();
-      return view;
-    },
-    options: (config) => recentViewOptions(config),
   });
 
   // Streak widget

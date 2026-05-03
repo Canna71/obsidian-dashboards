@@ -9,7 +9,8 @@
 .odash-calendar-view,
 .odash-habit-view,
 .odash-dashboard-view,
-.odash-heatmap-view {
+.odash-heatmap-view,
+.odash-sparkline-view {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -584,49 +585,45 @@
   font-variant-numeric: tabular-nums;
 }
 
-.odash-sparkline {
-  height: 100px !important;
-  width: 100% !important;
-}
+/* ─── Sparkline widget ────────────────────────────────────────────────────── */
 
-.odash-recent-list {
+.odash-spark-stat {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0 2px 6px;
+  flex-shrink: 0;
 }
 
-.odash-recent-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 8px;
-  border-radius: var(--radius-s, 4px);
-  background: var(--background-secondary);
-  gap: 8px;
-}
-
-.odash-recent-row:hover {
-  background: var(--background-modifier-hover);
-}
-
-.odash-recent-link {
-  font-size: 13px;
+.odash-spark-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
   color: var(--text-normal);
-  text-decoration: none;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.odash-recent-link:hover {
-  color: var(--color-accent);
-}
-
-.odash-recent-date {
-  font-size: 11px;
-  color: var(--text-muted);
-  white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
+
+.odash-spark-trend {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.odash-spark-up   { color: var(--color-green, #22c55e); }
+.odash-spark-down { color: var(--color-red,   #ef4444); }
+.odash-spark-flat { color: var(--text-muted); }
+
+.odash-spark-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.odash-spark-canvas-wrapper {
+  flex: 1;
+  min-height: 70px;
+  max-height: 110px;
+  position: relative;
+}
+

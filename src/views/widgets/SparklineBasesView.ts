@@ -6,7 +6,7 @@ import type { SparklineViewConfig } from "../../utils/types";
 import { DEFAULT_SPARKLINE_CONFIG } from "../../utils/types";
 import { recordsFromResult } from "../../data/adapter";
 import { buildAggregatedSeries } from "../../data/aggregations";
-import { getChartColors, getChartColorAlpha, getGridColor, getTextColor } from "../../theme/tokens";
+import { getChartColors, getChartColorAlpha } from "../../theme/tokens";
 import { VIEW_TYPE_SPARKLINE } from "../../bases/viewTypes";
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip);
@@ -40,7 +40,7 @@ export class SparklineBasesView extends BasesView {
     this.chart = null;
     const cfg = this.readConfig();
     if (!cfg.dateField) {
-      renderEmpty(this.containerEl, "odash-chart-view", "🗓️", "No date field", "Choose a date property in the view options.");
+      renderEmpty(this.containerEl, "odash-sparkline-view", "🗓️", "No date field", "Choose a date property in the view options.");
       return;
     }
     const { records } = recordsFromResult(
@@ -49,7 +49,7 @@ export class SparklineBasesView extends BasesView {
       [cfg.dateField, cfg.metricField],
     );
     if (records.length === 0) {
-      renderEmpty(this.containerEl, "odash-chart-view", "📋", "No records", "No notes match the current Base query.");
+      renderEmpty(this.containerEl, "odash-sparkline-view", "📋", "No records", "No notes match the current Base query.");
       return;
     }
 
@@ -65,14 +65,30 @@ export class SparklineBasesView extends BasesView {
 
     const points = series[0]?.points ?? [];
     if (points.length < 2) {
-      renderEmpty(this.containerEl, "odash-chart-view", "📈", "Not enough data", "Need at least two data points to draw a trend.");
+      renderEmpty(this.containerEl, "odash-sparkline-view", "📈", "Not enough data", "Need at least two data points to draw a trend.");
       return;
     }
 
     this.containerEl.empty();
-    this.containerEl.addClass("odash-chart-view");
-    const wrapper = this.containerEl.createDiv("odash-chart-wrapper");
-    const canvas = wrapper.createEl("canvas", { cls: "odash-chart-canvas" });
+    this.containerEl.addClass("odash-sparkline-view");
+
+    // ── stat bar ──────────────────────────────────────────────────────────────
+    const values = points.map((p) => p.value ?? 0);
+    const last = values[values.length - 1]!;
+    const prev = values[values.length - 2]!;
+    const delta = last - prev;
+    const trend = delta > 0 ? "↑" : delta < 0 ? "↓" : "→";
+    const trendCls = delta > 0 ? "odash-spark-up" : delta < 0 ? "odash-spark-down" : "odash-spark-flat";
+    const fmt = (v: number) => Number.isInteger(v) ? String(v) : v.toFixed(1);
+
+    const statBar = this.containerEl.createDiv("odash-spark-stat");
+    statBar.createSpan({ cls: "odash-spark-value", text: fmt(last) });
+    statBar.createSpan({ cls: `odash-spark-trend ${trendCls}`, text: ` ${trend} ${fmt(Math.abs(delta))}` });
+    statBar.createSpan({ cls: "odash-spark-label", text: points[points.length - 1]!.label });
+
+    // ── mini chart ────────────────────────────────────────────────────────────
+    const canvasWrapper = this.containerEl.createDiv("odash-spark-canvas-wrapper");
+    const canvas = canvasWrapper.createEl("canvas");
     const colors = getChartColors(1);
 
     this.chart = new Chart(canvas, {
@@ -82,28 +98,30 @@ export class SparklineBasesView extends BasesView {
         datasets: [{
           data: points.map((p) => p.value),
           borderColor: colors[0]!,
-          backgroundColor: getChartColorAlpha(colors[0]!, 0.15),
+          backgroundColor: getChartColorAlpha(colors[0]!, 0.12),
           fill: true,
-          tension: 0.3,
-          pointRadius: 2,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 4,
           borderWidth: 2,
         }],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { mode: "index" } },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: getTextColor(), font: { size: 10 }, maxRotation: 0 },
-          },
-          y: {
-            grid: { color: getGridColor() },
-            ticks: { color: getTextColor(), font: { size: 10 } },
-            beginAtZero: true,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            mode: "index",
+            callbacks: { title: (items) => items[0]?.label ?? "" },
           },
         },
+        scales: {
+          x: { display: false },
+          y: { display: false, beginAtZero: false },
+        },
+        layout: { padding: { left: 2, right: 2, top: 4, bottom: 4 } },
       },
     });
   }

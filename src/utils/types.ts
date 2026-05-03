@@ -261,13 +261,6 @@ export const DEFAULT_SPARKLINE_CONFIG: SparklineViewConfig = {
   dateField: null, metricField: null, aggregation: "count", dateBucket: "month",
 };
 
-// ─── Recent widget config ─────────────────────────────────────────────────────
-export interface RecentViewConfig {
-  dateField: BasesPropertyId | null;
-  topN: number;
-}
-export const DEFAULT_RECENT_CONFIG: RecentViewConfig = { dateField: null, topN: 10 };
-
 // ─── Streak widget config ─────────────────────────────────────────────────────
 export interface StreakViewConfig {
   dateField: BasesPropertyId | null;

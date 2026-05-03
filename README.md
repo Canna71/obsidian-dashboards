@@ -180,6 +180,8 @@ A compact trend line showing how a metric changes over time.
 
 > 📸 **Screenshot** — open `Bases/Habits.base`, switch to the **Mood Trend** view. Capture the line chart showing weekly average mood over the full period.
 
+![](docs/20260503115112.png)
+
 ```yaml
 - type: odash-sparkline
   name: Mood Trend
@@ -198,31 +200,12 @@ A compact trend line showing how a metric changes over time.
 
 ---
 
-### Recent records — `odash-recent`
-
-A list of the most recent notes, sorted by date and clickable to open.
-
-> 📸 **Screenshot** — open `Bases/Habits.base`, switch to the **Recent Entries** view. Capture the list showing the 10 most recent daily notes with their dates.
-
-```yaml
-- type: odash-recent
-  name: Recent Entries
-  dateField: note.date   # used for sorting
-  topN: 10
-```
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `dateField` | property | — | Sort field; auto-detected if omitted |
-| `topN` | slider 3–25 | `10` | Number of records to show |
-
----
-
 ### Streak — `odash-streak`
 
 KPI tiles for a habit: current streak, longest streak, overall completion rate, 7-day rolling average, and 30-day rolling average.
 
-> 📸 **Screenshot** — open `Bases/Habits.base`, switch to the **Exercise Streak** view. Capture the five KPI tiles.
+
+![](docs/20260503115546.png)
 
 ```yaml
 - type: odash-streak
@@ -246,7 +229,7 @@ KPI tiles for a habit: current streak, longest streak, overall completion rate, 
 
 A compact mini bar chart showing weekly completion rate over recent weeks. Green ≥ 80 %, amber ≥ 50 %, red below.
 
-> 📸 **Screenshot** — open `Bases/Habits.base`, switch to the **Exercise Weekly** view. Capture the bar chart spanning 12 weeks, ideally with a mix of green, amber, and red bars visible.
+![](docs/20260503115624.png)
 
 ```yaml
 - type: odash-week-bars
@@ -280,7 +263,8 @@ Because every view type is independent, you can compose a dashboard by embedding
 ![[Bases/Habits.base#Exercise Weekly]]
 ```
 
-> 📸 **Screenshot** — open `Dashboards/Habits.md` and scroll to the **Exercise Tracker** section. Capture all three embedded widgets together to show how stacking looks in Reading view.
+
+![](docs/20260503115716.png)
 
 ---
 
@@ -326,6 +310,9 @@ cssclasses:
 
 > 📸 **Screenshot** — open `Dashboards/Habits.md` with the snippet active. Capture one embedded view with the toolbar hidden next to one without, so the difference is clear.
 
+
+![](docs/20260503115805.png)
+
 ---
 
 ## Habit modelling
@@ -349,6 +336,5 @@ The **Streak** and **Week bars** widgets support two modelling approaches:
 | KPI cards | `odash-kpi` |
 | Ranking | `odash-ranking` |
 | Sparkline | `odash-sparkline` |
-| Recent records | `odash-recent` |
 | Streak | `odash-streak` |
 | Week bars | `odash-week-bars` |
