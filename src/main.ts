@@ -3,32 +3,31 @@ import { registerAllViews } from "./bases/registerViews";
 
 // ─── Custom icons ─────────────────────────────────────────────────────────────
 
-// 5×4 grid of rounded squares with a diagonal intensity gradient —
-// represents a heatmap / contribution graph. viewBox is 0 0 100 100.
+// 4×3 grid, two square sizes to signal intensity:
+//   Large  (22×22, rx=3, op=1.0) → high activity  (fills its slot)
+//   Medium (14×14, rx=2, op=0.45) → low activity  (centred in slot with 4px inset)
+// Slots are 22×22 with 4px gap, stride=26.
+// Cols x: 0, 26, 52, 78  |  Rows y: 13, 39, 65  (vertically centred)
+//
+// Grid (L=large, M=medium):
+//   L  L  M  M
+//   L  L  L  M
+//   M  L  L  L
 const HEATMAP_ICON_SVG = `
-  <rect x="3"  y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.15"/>
-  <rect x="22" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
-  <rect x="41" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
-  <rect x="60" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="79" y="13" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
+  <rect x="0"  y="13" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="26" y="13" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="56" y="17" width="14" height="14" rx="2" fill="currentColor" fill-opacity="0.45"/>
+  <rect x="82" y="17" width="14" height="14" rx="2" fill="currentColor" fill-opacity="0.45"/>
 
-  <rect x="3"  y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
-  <rect x="22" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
-  <rect x="41" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="60" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
-  <rect x="79" y="32" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
+  <rect x="0"  y="39" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="26" y="39" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="52" y="39" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="82" y="43" width="14" height="14" rx="2" fill="currentColor" fill-opacity="0.45"/>
 
-  <rect x="3"  y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
-  <rect x="22" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="41" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
-  <rect x="60" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="79" y="51" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
-
-  <rect x="3"  y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="22" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="1"/>
-  <rect x="41" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.85"/>
-  <rect x="60" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.6"/>
-  <rect x="79" y="70" width="17" height="17" rx="2" fill="currentColor" fill-opacity="0.35"/>
+  <rect x="4"  y="69" width="14" height="14" rx="2" fill="currentColor" fill-opacity="0.45"/>
+  <rect x="26" y="65" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="52" y="65" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
+  <rect x="78" y="65" width="22" height="22" rx="3" fill="currentColor" fill-opacity="1"/>
 `;
 
 export default class DashboardsPlugin extends Plugin {
